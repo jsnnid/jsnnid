@@ -99,7 +99,7 @@ if (cluster.isMaster) {
                                     resolve(false)
                                     return;
                                 }
-                                console.log(stdout)
+                                console.log("push", stdout)
 
                                 fs.writeFileSync("./minId.txt", end.id.toString())
                                 resolve(true)
