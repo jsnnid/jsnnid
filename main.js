@@ -30,7 +30,7 @@ if (cluster.isMaster) {
 
         console.log(new Date(), minId)
 
-        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 1000', [minId], async function (error, res, fields) {
+        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 10000', [minId], async function (error, res, fields) {
             if (error) {
                 logger.error("读取错误", error)
                 return;
