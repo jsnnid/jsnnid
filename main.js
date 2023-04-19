@@ -20,7 +20,7 @@ if (cluster.isMaster) {
     main(0)
 
     function main(minId) {
-        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 100', [minId], async function (error, res, fields) {
+        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 1000', [minId], async function (error, res, fields) {
             if (error) {
                 logger.error("读取错误", error)
                 return;
@@ -36,7 +36,7 @@ if (cluster.isMaster) {
                     text = text.slice(100, 110) + text;
                 }
                 // console.log(text)
-                let dirPath = "./data/hs_novelsee_blog/m_articles/" + Math.round(tr.id / 10000) + "/";
+                let dirPath = "./data/hs_novelsee_blog/m_articles/" + Math.floor(tr.id / 10000) + "/";
                 if (!fs.existsSync(dirPath)) {
                     fs.mkdirSync(dirPath)
                 }
