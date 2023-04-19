@@ -51,8 +51,9 @@ if (cluster.isMaster) {
                     fs.mkdirSync(dirPath)
                 }
                 let filePath = dirPath + tr.id + ".txt";
-                fs.writeFileSync(filePath, text)
-
+                if (!fs.existsSync(filePath)) {
+                    fs.writeFileSync(filePath, text)
+                }
 
                 // if (text.length >= 210) {
                 //     text = text.slice(10, text.length)
@@ -82,7 +83,6 @@ if (cluster.isMaster) {
                         console.log(error);
                     } else {
                         console.log("commit", stdout)
-                        console.log(end.id)
                         fs.writeFileSync("./minId.txt", end.id.toString())
                     }
 
