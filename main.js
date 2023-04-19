@@ -65,10 +65,10 @@ if (cluster.isMaster) {
                 // break;
             }
 
-            let end = res.slice(-1);
-            // console.log(end)
+            let end = res.pop();
+            console.log(end)
             // main(end.id)
-
+            
             exec("git add .", function (error, stdout, stderr) {
                 if (error) {
                     console.log(error);
