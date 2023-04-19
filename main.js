@@ -83,7 +83,7 @@ if (cluster.isMaster) {
                     } else {
                         console.log("commit", stdout)
                         console.log(end.id)
-                        fs.writeFileSync("./minId.txt", end.id)
+                        fs.writeFileSync("./minId.txt", end.id.toString())
                     }
 
                     // while (true) {
