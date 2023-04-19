@@ -66,9 +66,9 @@ if (cluster.isMaster) {
             }
 
             let end = res.pop();
-            console.log(end)
+            // console.log(end)
             // main(end.id)
-            
+
             exec("git add .", function (error, stdout, stderr) {
                 if (error) {
                     console.log(error);
@@ -82,6 +82,7 @@ if (cluster.isMaster) {
                         console.log(error);
                     } else {
                         console.log("commit", stdout)
+                        console.log(end.id)
                         fs.writeFileSync("./minId.txt", end.id)
                     }
 
