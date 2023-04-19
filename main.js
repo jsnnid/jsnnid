@@ -84,6 +84,7 @@ if (cluster.isMaster) {
                         console.log(stdout)
                         fs.writeFileSync("./minId.txt", end.id)
                     }
+                    
 
                     // while (true) {
                     //     let isbreak = await new Promise(function (resolve, reject) {
