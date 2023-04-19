@@ -85,7 +85,6 @@ if (cluster.isMaster) {
                         fs.writeFileSync("./minId.txt", end.id)
                     }
                     
-
                     // while (true) {
                     //     let isbreak = await new Promise(function (resolve, reject) {
                     //         exec("git push", function (error, stdout, stderr) {
