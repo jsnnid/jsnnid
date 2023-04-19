@@ -74,17 +74,17 @@ if (cluster.isMaster) {
                     console.log(error);
                     return;
                 }
-                console.log(stdout)
+                console.log("add", stdout)
 
 
                 exec("git commit -m '" + new Date().toISOString() + "'", async function (error, stdout, stderr) {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log(stdout)
+                        console.log("commit", stdout)
                         fs.writeFileSync("./minId.txt", end.id)
                     }
-                    
+
                     // while (true) {
                     //     let isbreak = await new Promise(function (resolve, reject) {
                     //         exec("git push", function (error, stdout, stderr) {
