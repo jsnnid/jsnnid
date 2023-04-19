@@ -81,7 +81,7 @@ if (cluster.isMaster) {
                         let isbreak = await new Promise(function (resolve, reject) {
                             exec("git push", function (error, stdout, stderr) {
                                 if (error) {
-                                    console.log('0000', error);
+                                    console.log(error);
                                     resolve(false)
                                     return;
                                 }
