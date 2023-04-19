@@ -80,9 +80,9 @@ if (cluster.isMaster) {
                 exec("git commit -m '" + new Date().toISOString() + "'", async function (error, stdout, stderr) {
                     if (error) {
                         console.log(error);
-                        return;
+                    }else{
+                        console.log(stdout)
                     }
-                    console.log(stdout)
 
                     while (true) {
                         let isbreak = await new Promise(function (resolve, reject) {
