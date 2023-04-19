@@ -15,7 +15,7 @@ if (cluster.isMaster) {
 
     cluster.on('exit', function (worker, code, signal) {
         console.log("exit")
-        // cluster.fork();
+        cluster.fork();
     });
 } else {
 
