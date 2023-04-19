@@ -39,6 +39,18 @@ if (cluster.isMaster) {
             for (let tr of res) {
                 // http://newsn.com.cn/say/node-zlib.html
 
+                let dirPath = "./data/hs_novelsee_blog/m_articles/" + Math.floor(tr.id / 10000) + "/";
+                if (!fs.existsSync(dirPath)) {
+                    fs.mkdirSync(dirPath)
+                }
+                let filePath = dirPath + tr.id + ".txt";
+
+                if (fs.existsSync(filePath)) {
+                    // 发现有这个文件，就跳过
+                    // 在文章更新的时候，其实是需要更新的，暂时先这样
+                    continue;
+                }
+
                 // 压缩
                 let gc = zlib.deflateSync(tr.content);
                 let text = gc.toString("base64")
@@ -46,14 +58,7 @@ if (cluster.isMaster) {
                     text = text.slice(100, 110) + text;
                 }
                 // console.log(text)
-                let dirPath = "./data/hs_novelsee_blog/m_articles/" + Math.floor(tr.id / 10000) + "/";
-                if (!fs.existsSync(dirPath)) {
-                    fs.mkdirSync(dirPath)
-                }
-                let filePath = dirPath + tr.id + ".txt";
-                if (!fs.existsSync(filePath)) {
-                    fs.writeFileSync(filePath, text)
-                }
+                fs.writeFileSync(filePath, text)
 
                 // if (text.length >= 210) {
                 //     text = text.slice(10, text.length)
