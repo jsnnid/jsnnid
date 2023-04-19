@@ -70,23 +70,25 @@ if (cluster.isMaster) {
                 console.log(stdout)
 
 
-                exec("git commit -m '" + new Date().toISOString() + "'", function (error, stdout, stderr) {
+                exec("git commit -m '" + new Date().toISOString() + "'", async function (error, stdout, stderr) {
                     if (error) {
                         console.log(error);
                         return;
                     }
                     console.log(stdout)
 
+                    while (true) {
+                        await new Promise(function (resolve, reject) {
+                            exec("git push", function (error, stdout, stderr) {
+                                if (error) {
+                                    console.log('0000', error);
+                                    return;
+                                }
+                                console.log(stdout)
 
-                    exec("git push", function (error, stdout, stderr) {
-                        if (error) {
-                            console.log(error);
-                            return;
-                        }
-                        console.log(stdout)
-
-
-                    })
+                            })
+                        })
+                    }
                 })
             })
 
