@@ -88,28 +88,31 @@ if (cluster.isMaster) {
                         console.log(error);
                     } else {
                         console.log("commit", stdout)
-                        fs.writeFileSync("./minId.txt", end.id.toString())
+                        // fs.writeFileSync("./minId.txt", end.id.toString())
                     }
 
-                    // while (true) {
-                    //     let isbreak = await new Promise(function (resolve, reject) {
-                    //         exec("git push", function (error, stdout, stderr) {
-                    //             if (error) {
-                    //                 console.log(error);
-                    //                 resolve(false)
-                    //                 return;
-                    //             }
-                    //             console.log(stdout)
+                    while (true) {
+                        let isbreak = await new Promise(function (resolve, reject) {
+                            exec("git push", function (error, stdout, stderr) {
+                                if (error) {
+                                    console.log(error);
+                                    resolve(false)
+                                    return;
+                                }
+                                console.log(stdout)
 
-                    //             fs.writeFileSync("./minId.txt", end.id)
-                    //             resolve(true)
-                    //         })
-                    //     })
+                                fs.writeFileSync("./minId.txt", end.id.toString())
+                                resolve(true)
+                            })
+                        })
 
-                    //     if (isbreak) {
-                    //         break;
-                    //     }
-                    // }
+                        if (isbreak) {
+                            break;
+                        }
+                    }
+
+
+                    process.exit(1);
                 })
             })
 
