@@ -78,16 +78,21 @@ if (cluster.isMaster) {
                     console.log(stdout)
 
                     while (true) {
-                        await new Promise(function (resolve, reject) {
+                        let isbreak = await new Promise(function (resolve, reject) {
                             exec("git push", function (error, stdout, stderr) {
                                 if (error) {
                                     console.log('0000', error);
+                                    resolve(false)
                                     return;
                                 }
                                 console.log(stdout)
-
+                                resolve(true)
                             })
                         })
+
+                        if (isbreak) {
+                            break;
+                        }
                     }
                 })
             })
