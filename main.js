@@ -18,12 +18,19 @@ if (cluster.isMaster) {
         // cluster.fork();
     });
 } else {
-    main(5069)
+
+
+    main(0)
 
     function main(minId) {
+        minId = fs.readFileSync("./minId.txt")
+        if (minId) {
+            minId = Number(minId)
+        }
+
         console.log(new Date(), minId)
 
-        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 10', [minId], async function (error, res, fields) {
+        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 1000', [minId], async function (error, res, fields) {
             if (error) {
                 logger.error("读取错误", error)
                 return;
@@ -86,6 +93,8 @@ if (cluster.isMaster) {
                                     return;
                                 }
                                 console.log(stdout)
+
+                                fs.writeFileSync("./minId.txt", end.id)
                                 resolve(true)
                             })
                         })
