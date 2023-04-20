@@ -20,9 +20,9 @@ if (cluster.isMaster) {
 } else {
 
 
-    main(0)
+    main("hs_novelsee_blog", "m_articles", 0)
 
-    function main(minId) {
+    function main(database, table, minId) {
         minId = fs.readFileSync("./minId.txt")
         if (minId) {
             minId = Number(minId)
@@ -30,7 +30,7 @@ if (cluster.isMaster) {
 
         console.log(new Date(), minId)
 
-        pool.query('select id,content from hs_novelsee_blog.m_articles where id>? order by id asc limit 10000', [minId], async function (error, res, fields) {
+        pool.query('select id,content from ??.?? where id>? order by id asc limit 10000', [database, table, minId], async function (error, res, fields) {
             if (error) {
                 logger.error("读取错误", error)
                 return;
@@ -39,8 +39,15 @@ if (cluster.isMaster) {
             for (let tr of res) {
                 // http://newsn.com.cn/say/node-zlib.html
 
-                let dirPath = "./data/hs_novelsee_blog/m_articles/" + Math.floor(tr.id / 10000) + "/";
+                let dirPath = "./data/" + database + "/" + table + "/" + Math.floor(tr.id / 10000) + "/";
+
                 if (!fs.existsSync(dirPath)) {
+                    if (!fs.existsSync("./data/" + database + "/")) {
+                        fs.mkdirSync("./data/" + database + "/")
+                    }
+                    if (!fs.existsSync("./data/" + database + "/" + table + "/")) {
+                        fs.mkdirSync("./data/" + database + "/" + table + "/")
+                    }
                     fs.mkdirSync(dirPath)
                 }
                 let filePath = dirPath + tr.id + ".txt";
@@ -78,7 +85,7 @@ if (cluster.isMaster) {
             exec("git add .", function (error, stdout, stderr) {
                 if (error) {
                     console.log(error);
-                }else{
+                } else {
                     console.log("add", stdout)
                 }
 
