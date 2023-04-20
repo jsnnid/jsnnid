@@ -20,22 +20,26 @@ if (cluster.isMaster) {
 } else {
 
 
-    main("hs_novelsee_blog", "m_articles", 0)
+    // main("hs_novelsee_blog", "m_articles", 0)
+    main("hs_xuetuwu", "m_articles", 0)
 
     function main(database, table, minId) {
-        minId = fs.readFileSync(`./${database}-${table}-minId.txt`)
+        if (fs.existsSync(`./${database}-${table}-minId.txt`)) {
+            minId = fs.readFileSync(`./${database}-${table}-minId.txt`)
+        }
         if (minId) {
             minId = Number(minId)
         }
 
-        console.log(new Date(), minId)
+        console.log(new Date(), database, table, minId)
 
         pool.query('select id,content from ??.?? where id>? order by id asc limit 10000', [database, table, minId], async function (error, res, fields) {
             if (error) {
                 logger.error("读取错误", error)
                 return;
             }
-
+            // console.log(res)
+            // return;
             for (let tr of res) {
                 // http://newsn.com.cn/say/node-zlib.html
 
@@ -95,7 +99,7 @@ if (cluster.isMaster) {
                         console.log(error);
                     } else {
                         console.log("commit", stdout)
-                        // fs.writeFileSync("./minId.txt", end.id.toString())
+                        // fs.writeFileSync(`./${database}-${table}-minId.txt`, end.id.toString())
                     }
 
                     while (true) {
@@ -108,7 +112,7 @@ if (cluster.isMaster) {
                                 }
                                 console.log("push", stdout)
 
-                                fs.writeFileSync("./minId.txt", end.id.toString())
+                                fs.writeFileSync(`./${database}-${table}-minId.txt`, end.id.toString())
                                 resolve(true)
                             })
                         })
@@ -119,7 +123,7 @@ if (cluster.isMaster) {
                     }
 
 
-                    process.exit(1);
+                    // process.exit(1);
                 })
             })
 
