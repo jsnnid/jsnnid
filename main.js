@@ -23,7 +23,7 @@ if (cluster.isMaster) {
     main("hs_novelsee_blog", "m_articles", 0)
 
     function main(database, table, minId) {
-        minId = fs.readFileSync("./minId.txt")
+        minId = fs.readFileSync(`./${database}-${table}-minId.txt`)
         if (minId) {
             minId = Number(minId)
         }
