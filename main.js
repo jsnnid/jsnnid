@@ -78,9 +78,9 @@ if (cluster.isMaster) {
             exec("git add .", function (error, stdout, stderr) {
                 if (error) {
                     console.log(error);
-                    return;
+                }else{
+                    console.log("add", stdout)
                 }
-                console.log("add", stdout)
 
 
                 exec("git commit -m '" + new Date().toISOString() + "'", async function (error, stdout, stderr) {
